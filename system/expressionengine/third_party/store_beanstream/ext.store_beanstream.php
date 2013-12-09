@@ -6,7 +6,7 @@ class Store_beanstream_ext
     public $version = '1.0';
     public $description = 'A custom payment gateway for Expresso Store 2.1+.';
     public $settings_exist = 'n';
-    public $docs_url = '';
+    public $docs_url = 'https://github.com/amphibian/store-beanstream';
 
     public function activate_extension()
     {
