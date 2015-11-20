@@ -2,7 +2,7 @@ This extension adds a [Beanstream](http://www.beanstream.com) payment gateway to
 
 ## Features
 
-- Support for both **Authorize** and **Authorize and Capture** settings in Expresso Store.
+- Support for both **Authorize Only** and **Purchase (Authorize and Capture)** settings in Expresso Store.
 - Support for processing refunds directly from the order administration screen.
 - Support for Interac Online payments (Canadian merchants only).
 - Support for using Beanstream's Legato.js library, which allows you to process payments *without* the customer's credit card number, CVD, and expiry date being posted to your server, reducing your PCI compliance needs.
@@ -11,7 +11,7 @@ This extension adds a [Beanstream](http://www.beanstream.com) payment gateway to
 
 Third-party payment gateways are added to Expresso Store by activating the add-on's extension. Beanstream Payment Gateway for Store also includes a module which must be installed alongside the extension in order to support Interac Online payments and the Legato.js tokenization process.
 
-Simply upload the `store_beanstream` folder to you `/system/expressionengine/third_party` folder, then activate both the module and extension.
+Simply upload the `store_beanstream` folder to your `/system/expressionengine/third_party` folder, then activate both the module and extension.
 
 ## Configuration
 
