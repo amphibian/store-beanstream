@@ -1,9 +1,30 @@
 <?php
 
+/*
+    This file is part of Beanstream Payment Gateway for Store add-on for ExpressionEngine.
+
+    Beanstream Payment Gateway for Store is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Beanstream Payment Gateway for Store is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    Read the terms of the GNU General Public License
+    at <http://www.gnu.org/licenses/>.
+    
+    Copyright 2015 Derek Hogue
+*/
+
+require(PATH_THIRD.'store_beanstream/config.php');
+
 class Store_beanstream_ext
 {
     public $name = 'Beanstream Payment Gateway for Store';
-    public $version = '1.0';
+    public $version = STORE_BEANSTREAM_VERSION;
     public $description = 'A custom payment gateway for Expresso Store 2.1+.';
     public $settings_exist = 'n';
     public $docs_url = 'https://github.com/amphibian/store-beanstream';
@@ -19,7 +40,6 @@ class Store_beanstream_ext
             'version'   => $this->version,
             'enabled'   => 'y'
         );
-
         ee()->db->insert('extensions', $data);
     }
 
@@ -39,6 +59,7 @@ class Store_beanstream_ext
         // Store will automatically include your files when they are needed
         $composer = require(PATH_THIRD.'store/autoload.php');
         $composer->add('Omnipay', __DIR__);
+        $composer->add('Beanstream', __DIR__.'/vendor/beanstream-php/src');
 
         return $gateways;
     }

@@ -5,11 +5,6 @@ namespace Omnipay\Beanstream;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Beanstream\Message\Request;
 
-/**
- * Beanstream Gateway
- *
- * @link https://beanstreamsupport.pbworks.com/w/page/26445764/Transaction%20Processing%20API
- */
 class Gateway extends AbstractGateway
 {
     public function getName()
@@ -21,14 +16,17 @@ class Gateway extends AbstractGateway
     {
         return array(
             'mode' => array('test', 'production'),
-            'merchantIdCanada' => '',
-            'merchantIdUsa' => '',
-            'merchantIdInternational' => '',
+            'merchantId' => '',
+            'apiKey' => '',
             'merchantIdTest' => '',
-            'hash' => '',
-            'debugMode' => false
+            'apiKeyTest' => '',
+            'interacUrl' => $this->getInteracUrl()
         );
     }
+    
+    /*
+    	Setters and Getters	
+    */
 
 	public function getMode()
     {
@@ -39,56 +37,36 @@ class Gateway extends AbstractGateway
     {
         return $this->setParameter('mode', $value);
     }
-    
-	public function getDebugMode()
+        
+	public function getApiKey()
     {
-        return $this->getParameter('debugMode');
+        return $this->getParameter('apiKey');
     }
 
-    public function setDebugMode($value)
+    public function setApiKey($value)
     {
-        return $this->setParameter('debugMode', $value);
+        return $this->setParameter('apiKey', $value);
+    }
+    
+	public function getApiKeyTest()
+    {
+        return $this->getParameter('apiKeyTest');
+    }
+
+    public function setApiKeyTest($value)
+    {
+        return $this->setParameter('apiKeyTest', $value);
+    }
+    
+    public function getMerchantId()
+    {
+        return $this->getParameter('merchantId');
+    }
+
+    public function setMerchantId($value)
+    {
+        return $this->setParameter('merchantId', $value);
     }    
-    
-    public function getHash()
-    {
-        return $this->getParameter('hash');
-    }
-
-    public function setHash($value)
-    {
-        return $this->setParameter('hash', $value);
-    }
-    
-    public function getMerchantIdCanada()
-    {
-        return $this->getParameter('merchantIdCanada');
-    }
-
-    public function setMerchantIdCanada($value)
-    {
-        return $this->setParameter('merchantIdCanada', $value);
-    }    
-
-    public function getMerchantIdUsa()
-    {
-        return $this->getParameter('merchantIdUsa');
-    }
-
-    public function setMerchantIdUsa($value)
-    {
-        return $this->setParameter('merchantIdUsa', $value);
-    }
-    
-    public function getMerchantIdInternational()
-    {
-        return $this->getParameter('merchantIdInternational');
-    }
-
-    public function setMerchantIdInternational($value)
-    {
-        return $this->setParameter('merchantIdInternational', $value);
-    }      
     
     public function getMerchantIdTest()
     {
@@ -100,9 +78,62 @@ class Gateway extends AbstractGateway
         return $this->setParameter('merchantIdTest', $value);
     }
 
+    public function getInteracUrl()
+    {
+    	return ee()->config->item('site_url').QUERY_MARKER.'ACT='.
+    		ee()->functions->insert_action_ids(
+    			ee()->functions->fetch_action_id('Store_beanstream', 'process_interac_response')
+    		);
+    }
+
+    public function setInteracUrl($value)
+    {
+        return false;
+    }
+    
+    public function getPreAuth()
+    {
+        return $this->getParameter('preAuth');
+    }
+
+    public function setPreAuth($data)
+    {
+        return $this->setParameter('preAuth', $data);
+    }
+    
+    /*
+    	Methods declaring capability and mapping to Messsage classes	
+    */
+    
+    public function authorize(array $parameters = array())
+    {
+        $this->setPreAuth('y');
+        return $this->purchase($parameters);
+    }
+
+    public function capture(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Beanstream\Message\CaptureRequest', $parameters);
+    }
+
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Beanstream\Message\Request', $parameters);
+        return $this->createRequest('\Omnipay\Beanstream\Message\PurchaseRequest', $parameters);
+    }
+
+    public function completePurchase(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Beanstream\Message\CompletePurchaseRequest', $parameters);
+    }
+	
+    public function refund(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Beanstream\Message\RefundRequest', $parameters);
+    }
+
+    public function void(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Beanstream\Message\VoidRequest', $parameters);
     }
 
 }

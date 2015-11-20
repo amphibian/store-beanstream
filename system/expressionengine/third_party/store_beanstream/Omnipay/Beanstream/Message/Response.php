@@ -4,34 +4,45 @@ namespace Omnipay\Beanstream\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 
-/**
- * Beanstream Response
- */
 class Response extends AbstractResponse
 {
     public function isSuccessful()
     {
-        parse_str($this->data);
-        return ($messageId == 1);
+        return (isset($this->data['approved']) && $this->data['approved'] == 1);
+    }
+
+    public function isRedirect()
+    {
+        return (isset($this->data['merchant_data']));
+    }
+    
+    public function redirect()
+    {
+	    /*
+	    	This will print a self-submitting form to the screen,
+	    	creating an automatic redirect to the Interac Online payment process	
+	    */
+	    exit(urldecode($this->data['contents']));
     }
 
     public function getTransactionReference()
     {
-        parse_str($this->data);
-        return $trnId;
+        return (isset($this->data['id'])) ? $this->data['id'] : false;
     }
 
     public function getMessage()
-    {
-        if(!$this->isSuccessful())
+    {   
+        if(!$this->isSuccessful() && !$this->isRedirect())
         {
-        	parse_str($this->data);
-        	$message = implode('; ', array_filter(explode('<br>', strip_tags(urldecode($messageText), '<br>'))));
-        	if($message == 'DECLINE')
+        	if(!empty($this->data['error']))
         	{
-	        	$message = 'Sorry, but your card was declined.';
+	        	$message = $this->data['error'];
+	        	if($message == 'DECLINE')
+	        	{
+		        	$message = 'Sorry, but your card was declined.';
+	        	}
+				return $message;
         	}
-            return $message;
         }
     }
 }
