@@ -15,7 +15,7 @@ Simply upload the `store_beanstream` folder to your `/system/expressionengine/th
 
 ## Configuration
 
-Access the gateway settings screen by going to **Add-ons &rarr; Moudles &rarr; Store &rarr; Settings &rarr; Payment Methods**, then clicking on **Beanstream**.
+Access the gateway settings screen by going to **Add-ons &rarr; Modules &rarr; Store &rarr; Settings &rarr; Payment Methods**, then clicking on **Beanstream**.
 
 You will need to enter both your **Merchant ID** and **API Passcode**, which can be obtained via your Beanstream control panel, or by contacting Beanstream support. If you have a sandbox account with Beanstream, you can also enter both of these values for your sandbox account in their corresponding "test" inputs and put the gateway into "Test" mode.
 
@@ -38,11 +38,11 @@ On the final stage of your checkout process, the customer must be given a choice
 
 ### Setting the language of the Interac Online interface
 
-By default, the Interac Online process flow will be displayed to the customer in English, but you may post a variable named `beanstream_language` in your checkout form to set it to `fra` for French.
+By default, the Interac Online process flow will be displayed to the customer in English, but you may post a variable named `beanstream_language` in your checkout form with a value of `fra` to display the payment flow in French.
 
 ### Displaying required Interac Online response data after checkout
 
-Interac Online has several display requirements which must be met before a customer begins and after a customer completes a transaction. (You should familiarize yourself with these requirement and ensure your templates reflect them.) Store does not have methods in place to display some of this data after checkout, so Beanstream Payment Gateway for Store has its own methods for saving and displaying it in your template.
+Interac Online has several display requirements which must be met before a customer begins and after a customer completes a transaction. (You should familiarize yourself with these requirements and ensure your templates reflect them.) Store does not have methods in place to display some of this data after checkout, so Beanstream Payment Gateway for Store has its own methods for saving and displaying it in your template.
 
 Inside of your `{exp:store:orders}` tag, where you display the customer's order confirmation or order record, include the following tag (using whatever formatting and placement you wish):
 

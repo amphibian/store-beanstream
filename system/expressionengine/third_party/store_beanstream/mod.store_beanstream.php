@@ -23,8 +23,8 @@ class Store_beanstream
 {
 	
 	/*
-		Display the required data from a successful Interac payment 
-		on the order confirmation screen.
+		Display the required data from a successful
+		Interac Online payment on the order confirmation screen.
 		
 		Relevant variables:
 		{interac_institution_name}
@@ -49,7 +49,7 @@ class Store_beanstream
 	}
 	
 	/*
-		Read, process, and redirect the response from an Interac Online payment	.
+		Read, process, and redirect the response from an Interac Online payment.
 	*/
 	public function process_interac_response()
 	{
